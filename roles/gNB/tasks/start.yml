@@ -43,7 +43,7 @@
 
 - name: create {{ ocudu.docker.container.gnb_image }} containers
   community.docker.docker_container:
-    name: "ocudu-gnb"
+    name: ocudu-gnb
     image: "{{ ocudu.docker.container.gnb_image }}"
     networks:
       - name: "{{ ocudu.docker.network.name }}"
@@ -56,6 +56,8 @@
     restart_policy: unless-stopped
     state: started
     detach: true
+    interactive: true
+    tty: true
     command: "gnb -c /opt/gnb_config.yaml"
   when: inventory_hostname in groups['ocudu_nodes']
   become: true
