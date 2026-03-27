@@ -34,6 +34,11 @@ The playbooks use `community.docker` and `ansible.posix` modules. Make sure
 those collections are available in the Ansible environment used to run the
 targets.
 
+The checked-in `ansible.cfg` keeps SSH host key checking enabled and does not
+enable agent forwarding. If you are bringing up disposable lab machines and
+need the previous relaxed behavior, provide those SSH options through a local
+Ansible config override instead of committing them in-repo.
+
 ## Inventory
 
 Update `hosts.ini` to match your deployment.
@@ -62,8 +67,8 @@ ocudu:
    servers:
       0:
          gnb_ip: "10.76.28.115"
-         gnb_conf: deps/ocudu/roles/gNB/templates/gnb_zmq.yaml
-         ue_conf: deps/ocudu/roles/uEsimulator/templates/ue_zmq.conf
+         gnb_conf: gnb_zmq.yaml
+         ue_conf: ue_zmq.conf
 
 core:
    upf:
@@ -80,8 +85,8 @@ Key variables:
 - `ocudu.docker.network.name`: Docker network used by the containers. The checked-in defaults use `host`.
 - `ocudu.simulation`: must be `true` to run the UE simulator
 - `ocudu.servers[n].gnb_ip`: bind address used by the gNB for NGAP traffic
-- `ocudu.servers[n].gnb_conf`: path to the gNB template used for that OCUDU node
-- `ocudu.servers[n].ue_conf`: path to the UE simulator template used for that OCUDU node
+- `ocudu.servers[n].gnb_conf`: gNB template name or path resolvable by Ansible's template lookup for that OCUDU node. The checked-in default uses the role's `templates/` directory.
+- `ocudu.servers[n].ue_conf`: UE simulator template name or path resolvable by Ansible's template lookup for that OCUDU node. The checked-in default uses the role's `templates/` directory.
 - `core.amf.ip`: AMF address used by the gNB and routing playbooks
 - `core.upf.access_subnet`: subnet used to install the OCUDU-side route toward the UPF
 - `core.upf.multihop_gnb`: disables the static route task when set to `true`
@@ -182,7 +187,6 @@ make ocudu-uesim-start \
 Relevant environment variables:
 
 - `HOSTS_INI_FILE`: inventory file passed to `ansible-playbook`
-- `ROOT_DIR`: base directory used to resolve template paths passed into the playbooks
 - `OCUDU_ROOT_DIR`: location of this repository when called from another workspace
 - `EXTRA_VARS`: raw extra vars string forwarded to Ansible
 

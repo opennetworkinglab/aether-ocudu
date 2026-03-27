@@ -31,7 +31,7 @@
 
 - name : copy gnb config file to /tmp/gnb_config.yaml
   template:
-    src: "{{ ROOT_DIR }}/{{ ocudu.servers[server_index | int].gnb_conf }}"
+    src: "{{ ocudu.servers[server_index | int].gnb_conf }}"
     dest: /tmp/gnb_config.yaml
   vars:
     server_index: "{{ groups['ocudu_nodes'].index(inventory_hostname) }}"

@@ -1,9 +1,9 @@
 ---
 
 - name: start ocudu/gNB
-  import_tasks: roles/gNB/tasks/start.yml
+  import_tasks: start.yml
   tags: start
 
 - name: stop ocudu/gNB
-  import_tasks: roles/gNB/tasks/stop.yml
+  import_tasks: stop.yml
   tags: stop
