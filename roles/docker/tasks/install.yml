@@ -9,7 +9,7 @@
   debug:
     var: docker_valid.stdout
 
-- meta: end_play
+- meta: end_host
   when: docker_valid.failed == false
 
 - name: update apt cache

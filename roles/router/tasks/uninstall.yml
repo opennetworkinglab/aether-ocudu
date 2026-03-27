@@ -39,10 +39,10 @@
   when: (inventory_hostname in groups['ocudu_nodes']) and (inventory_hostname not in groups['master_nodes'])
   become: true
 
-- name: set net.ipv4.conf.all.rp_filter to 2
+- name: set net.ipv4.conf.all.rp_filter to 0
   ansible.posix.sysctl:
     name: net.ipv4.conf.all.rp_filter
-    value: '2'
+    value: '0'
     sysctl_set: true
     reload: true
   when: (inventory_hostname in groups['ocudu_nodes']) and (inventory_hostname not in groups['master_nodes'])
