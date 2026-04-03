@@ -1,7 +1,7 @@
 ocudu:
   docker:
     network:
-      name: public_net
+      name: host
 
 core:
   upf:
