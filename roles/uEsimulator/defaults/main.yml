@@ -3,6 +3,6 @@ ocudu:
     container:
       ue_image: aetherproject/srsran-ue:rel-0.5.0
     network:
-      name: public_net
+      name: host
 
   simulation: true
